@@ -1,3 +1,10 @@
+## 0.2.16+1
+    
+#### Bug Fixes
+
+- **oi-select-options:**
+    - removeItemFn get item in attribute
+
 ## 0.2.16
     
 #### Bug Fixes
