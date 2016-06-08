@@ -131,7 +131,7 @@ angular.module('oi.select')
         }
 
         return function () {
-            $document[0].removeEventListener('click', clickHandler);
+            $document[0].removeEventListener('click', clickHandler, true);
             element[0].removeEventListener('mousedown', mousedownHandler, true);
             element[0].removeEventListener('blur', blurHandler, true);
             inputElement.off('focus', focusHandler);
@@ -334,6 +334,7 @@ angular.module('oi.select')
         intersection: intersection
     }
 }]);
+
 angular.module('oi.select')
 
 .directive('oiSelect', ['$document', '$q', '$timeout', '$parse', '$interpolate', '$injector', '$filter', '$animate', 'oiUtils', 'oiSelect', function($document, $q, $timeout, $parse, $interpolate, $injector, $filter, $animate, oiUtils, oiSelect) {
@@ -604,17 +605,17 @@ angular.module('oi.select')
                 scope.removeItem = function removeItem(position) {
                     if (attrs.disabled || multiple && position < 0) return;
 
+                    removedItem = multiple ? ctrl.$modelValue[position] : ctrl.$modelValue;
+
                     $q.when(removeItemFn(scope.$parent, {$item: removedItem}))
                         .then(function() {
                             if (!multiple && !scope.inputHide) return;
 
                             if (multiple) {
-                                removedItem = ctrl.$modelValue[position];
                                 ctrl.$modelValue.splice(position, 1);
                                 ctrl.$setViewValue([].concat(ctrl.$modelValue));
 
                             } else  {
-                                removedItem = ctrl.$modelValue;
                                 cleanInput();
 
                                 if (options.cleanModel) {
@@ -746,6 +747,9 @@ angular.module('oi.select')
                 resetMatches();
 
                 element[0].addEventListener('click', click, true); //triggered before add or delete item event
+                scope.$on('$destroy', function() {
+                  element[0].removeEventListener('click', click, true);
+                });
                 element.on('focus', focus);
                 element.on('blur', blur);
 
