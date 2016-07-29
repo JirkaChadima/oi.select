@@ -54,8 +54,8 @@ angular.module('oi.select')
             return function(scope, element, attrs, ctrl) {
                 var inputElement        = element.find('input'),
                     listElement         = angular.element(element[0].querySelector('.select-dropdown')),
-                    placeholder         = placeholderFn(scope),
-                    multiplePlaceholder = multiplePlaceholderFn(scope),
+                    placeholder         = placeholderFn(scope) || attrs.placeholder || '',
+                    multiplePlaceholder = multiplePlaceholderFn(scope) || attrs.multiplePlaceholder || '',
                     elementOptions      = optionsFn(scope.$parent) || {},
                     options             = angular.extend({cleanModel: elementOptions.newItem === 'prompt'}, oiSelect.options, elementOptions),
                     editItem            = options.editItem,
