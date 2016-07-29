@@ -79,6 +79,7 @@ gulp.task('compileScripts', function() {
 
 gulp.task('watch', function() {
     gulp.watch(path.join(paths.src, '**/*.styl'), ['compileStyles']);
+    gulp.watch(path.join(paths.src, '**/*.js'), ['compileScripts']);
 });
 
 gulp.task('test', function(done) {
